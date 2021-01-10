@@ -5,22 +5,24 @@
  */
 package view;
 
+import controller.UsersController;
+import utility.Behavior;
+
 /**
  *
  * @author KSGamer
  */
 public final class Login extends javax.swing.JFrame {
+    
+    private final UsersController users = new UsersController();
+    private final Behavior behavior = new Behavior();
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        pre_config();
-    }
-    
-    public void pre_config() {
-        setLocationRelativeTo(null);
+        this.behavior.setToNull(this);
     }
 
     /**
@@ -33,31 +35,152 @@ public final class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        chkbReveal = new javax.swing.JCheckBox();
+        txtUsername = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
+        btnAuth = new javax.swing.JButton();
+        lbNotify = new javax.swing.JLabel();
+        btnExit = new javax.swing.JButton();
+        btnMinimize = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Inicio de Sesión");
+        setTitle("Login");
         setMinimumSize(new java.awt.Dimension(600, 374));
         setUndecorated(true);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.setLayout(null);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
-        );
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(24, 150, 226));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Inicio de Sesión");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(75, 60, 150, 22);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Contraseña:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(45, 180, 100, 15);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setText("Usuario:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(45, 120, 100, 15);
+
+        chkbReveal.setBackground(new java.awt.Color(255, 255, 255));
+        chkbReveal.setText("Mostrar contraseña");
+        chkbReveal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkbRevealItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(chkbReveal);
+        chkbReveal.setBounds(45, 220, 130, 23);
+
+        txtUsername.setText("Ingrese su usuario");
+        txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusLost(evt);
+            }
+        });
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsernameKeyPressed(evt);
+            }
+        });
+        jPanel1.add(txtUsername);
+        txtUsername.setBounds(45, 135, 210, 25);
+
+        txtPassword.setText("Ingrese su contraseña");
+        txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPasswordFocusLost(evt);
+            }
+        });
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
+        jPanel1.add(txtPassword);
+        txtPassword.setBounds(45, 195, 210, 25);
+
+        btnAuth.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnAuth.setText("Ingresar");
+        btnAuth.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAuthMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnAuth);
+        btnAuth.setBounds(45, 290, 210, 30);
+
+        lbNotify.setForeground(new java.awt.Color(255, 51, 51));
+        lbNotify.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lbNotify);
+        lbNotify.setBounds(50, 250, 200, 30);
+
+        btnExit.setBackground(new java.awt.Color(255, 255, 255));
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Cross_Black.png"))); // NOI18N
+        btnExit.setToolTipText("Salir");
+        btnExit.setContentAreaFilled(false);
+        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExit.setFocusPainted(false);
+        btnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnExit.setOpaque(true);
+        btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnExitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnExitMouseExited(evt);
+            }
+        });
+        jPanel1.add(btnExit);
+        btnExit.setBounds(280, 0, 20, 20);
+
+        btnMinimize.setBackground(new java.awt.Color(255, 255, 255));
+        btnMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/underscore.png"))); // NOI18N
+        btnMinimize.setToolTipText("Minimizar");
+        btnMinimize.setContentAreaFilled(false);
+        btnMinimize.setFocusPainted(false);
+        btnMinimize.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMinimize.setOpaque(true);
+        btnMinimize.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMinimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMinimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMinimizeMouseExited(evt);
+            }
+        });
+        jPanel1.add(btnMinimize);
+        btnMinimize.setBounds(260, 0, 20, 20);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(300, 0, 300, 374);
 
-        jPanel2.setBackground(new java.awt.Color(181, 130, 130));
+        jPanel2.setBackground(new java.awt.Color(24, 150, 226));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -75,6 +198,62 @@ public final class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAuthMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAuthMouseClicked
+        this.users.auth(this.txtUsername, this.txtPassword, this.lbNotify, this.btnAuth, this);
+    }//GEN-LAST:event_btnAuthMouseClicked
+
+    private void txtUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyPressed
+        this.users.auth(this.txtUsername, this.txtPassword, this.lbNotify, this.btnAuth, this, evt);
+    }//GEN-LAST:event_txtUsernameKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        this.users.auth(this.txtUsername, this.txtPassword, this.lbNotify, this.btnAuth, this, evt);
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void chkbRevealItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkbRevealItemStateChanged
+        this.behavior.reveal(evt, this.txtPassword);
+    }//GEN-LAST:event_chkbRevealItemStateChanged
+
+    private void txtUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusGained
+        this.behavior.clear(this.txtUsername);
+    }//GEN-LAST:event_txtUsernameFocusGained
+
+    private void txtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusGained
+        this.behavior.clear(this.txtPassword);
+    }//GEN-LAST:event_txtPasswordFocusGained
+
+    private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
+        this.behavior.defaultField(this.txtUsername, "Ingrese su usuario");
+    }//GEN-LAST:event_txtUsernameFocusLost
+
+    private void txtPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusLost
+        this.behavior.defaultField(this.txtPassword, "Ingrese su contraseña");
+    }//GEN-LAST:event_txtPasswordFocusLost
+
+    private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
+        this.behavior.exit(this);
+    }//GEN-LAST:event_btnExitMouseClicked
+
+    private void btnExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseEntered
+        this.behavior.hoverEfectExit(this.btnExit, true);
+    }//GEN-LAST:event_btnExitMouseEntered
+
+    private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
+        this.behavior.hoverEfectExit(this.btnExit, false);
+    }//GEN-LAST:event_btnExitMouseExited
+
+    private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
+        this.behavior.minimize(this);
+    }//GEN-LAST:event_btnMinimizeMouseClicked
+
+    private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
+        this.behavior.hoverEfectMinimize(this.btnMinimize, true);
+    }//GEN-LAST:event_btnMinimizeMouseEntered
+
+    private void btnMinimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseExited
+        this.behavior.hoverEfectMinimize(this.btnMinimize, false);
+    }//GEN-LAST:event_btnMinimizeMouseExited
 
     /**
      * @param args the command line arguments
@@ -112,7 +291,17 @@ public final class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAuth;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnMinimize;
+    private javax.swing.JCheckBox chkbReveal;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbNotify;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
