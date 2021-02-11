@@ -5,6 +5,8 @@
  */
 package view;
 
+import component.Users;
+import javax.swing.JPanel;
 import utility.Behavior;
 
 /**
@@ -14,6 +16,10 @@ import utility.Behavior;
 public final class Main extends javax.swing.JFrame {
     
     private final Behavior behavior = new Behavior();
+    
+    private final Users users = new Users();
+    
+    private final JPanel[] panels = {this.users};
 
     /**
      * Creates new form Main
@@ -21,6 +27,8 @@ public final class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         this.behavior.setToNull(this);
+        this.behavior.startPanels(this.pContainer, panels);
+        this.behavior.swapPanels(this.users, this.panels);
     }
 
     /**
@@ -37,6 +45,10 @@ public final class Main extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnLogout = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
+        btnSetting = new javax.swing.JButton();
+        btnMinimize = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        pContainer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dashboard");
@@ -71,12 +83,21 @@ public final class Main extends javax.swing.JFrame {
         jPanel1.setBounds(0, 0, 180, 50);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(null);
 
         btnLogout.setBackground(new java.awt.Color(24, 150, 226));
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logout.png"))); // NOI18N
         btnLogout.setToolTipText("Cerrar Sesión");
         btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogout.setOpaque(true);
+        btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogoutMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btnLogout);
+        btnLogout.setBounds(0, 0, 50, 50);
 
         btnExit.setBackground(new java.awt.Color(255, 255, 255));
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Cross_Black.png"))); // NOI18N
@@ -96,27 +117,87 @@ public final class Main extends javax.swing.JFrame {
                 btnExitMouseExited(evt);
             }
         });
+        jPanel2.add(btnExit);
+        btnExit.setBounds(1080, 0, 20, 20);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1030, Short.MAX_VALUE)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        btnSetting.setBackground(new java.awt.Color(255, 255, 255));
+        btnSetting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Setting.png"))); // NOI18N
+        btnSetting.setToolTipText("Configurar");
+        btnSetting.setContentAreaFilled(false);
+        btnSetting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSetting.setFocusPainted(false);
+        btnSetting.setOpaque(true);
+        btnSetting.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSettingMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSettingMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSettingMouseExited(evt);
+            }
+        });
+        jPanel2.add(btnSetting);
+        btnSetting.setBounds(1060, 0, 20, 20);
+
+        btnMinimize.setBackground(new java.awt.Color(255, 255, 255));
+        btnMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Underscore.png"))); // NOI18N
+        btnMinimize.setToolTipText("Minimizar");
+        btnMinimize.setContentAreaFilled(false);
+        btnMinimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMinimize.setFocusPainted(false);
+        btnMinimize.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMinimize.setOpaque(true);
+        btnMinimize.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMinimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMinimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMinimizeMouseExited(evt);
+            }
+        });
+        jPanel2.add(btnMinimize);
+        btnMinimize.setBounds(1040, 0, 20, 20);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(180, 0, 1100, 50);
+
+        jPanel3.setBackground(new java.awt.Color(70, 99, 145));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 180, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 670, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel3);
+        jPanel3.setBounds(0, 50, 180, 670);
+
+        pContainer.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout pContainerLayout = new javax.swing.GroupLayout(pContainer);
+        pContainer.setLayout(pContainerLayout);
+        pContainerLayout.setHorizontalGroup(
+            pContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1100, Short.MAX_VALUE)
+        );
+        pContainerLayout.setVerticalGroup(
+            pContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 670, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(pContainer);
+        pContainer.setBounds(180, 50, 1100, 670);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -132,6 +213,34 @@ public final class Main extends javax.swing.JFrame {
     private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
         this.behavior.hoverEfectExit(this.btnExit, false);
     }//GEN-LAST:event_btnExitMouseExited
+
+    private void btnSettingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettingMouseClicked
+        
+    }//GEN-LAST:event_btnSettingMouseClicked
+
+    private void btnSettingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettingMouseEntered
+        this.behavior.hoverEfectTitleBar(this.btnSetting, true);
+    }//GEN-LAST:event_btnSettingMouseEntered
+
+    private void btnSettingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSettingMouseExited
+        this.behavior.hoverEfectTitleBar(this.btnSetting, false);
+    }//GEN-LAST:event_btnSettingMouseExited
+
+    private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
+        this.behavior.minimize(this);
+    }//GEN-LAST:event_btnMinimizeMouseClicked
+
+    private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
+        this.behavior.hoverEfectTitleBar(this.btnMinimize, true);
+    }//GEN-LAST:event_btnMinimizeMouseEntered
+
+    private void btnMinimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseExited
+        this.behavior.hoverEfectTitleBar(this.btnMinimize, false);
+    }//GEN-LAST:event_btnMinimizeMouseExited
+
+    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
+        this.behavior.openLogin(this);
+    }//GEN-LAST:event_btnLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -171,8 +280,12 @@ public final class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JLabel btnLogout;
+    private javax.swing.JButton btnMinimize;
+    private javax.swing.JButton btnSetting;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel pContainer;
     // End of variables declaration//GEN-END:variables
 }

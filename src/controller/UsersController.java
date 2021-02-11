@@ -5,18 +5,19 @@
  */
 package controller;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import model.UsersModel;
 import object.UsersObject;
-import view.Main;
+import utility.Behavior;
+import utility.AddUser;
+import utility.LoadUser;
 
 /**
  *
@@ -25,7 +26,9 @@ import view.Main;
 public class UsersController {
 
     private final UsersModel model = new UsersModel();
-    private final Main main = new Main();
+    private final Behavior behavior = new Behavior();
+    private final AddUser addUser = new AddUser();
+    private LoadUser loadUser;
 
     public boolean auth(JTextField user, JPasswordField password, JLabel notify, JButton button, JFrame login) {
         boolean flag = false;
@@ -67,20 +70,25 @@ public class UsersController {
             return flag;
         }
 
-        for (double i = 1; i >= 0; i -= 0.01) {
-            login.setOpacity((float) i);
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        login.setVisible(false);
-        login.dispose();
-
-        this.main.setVisible(true);
+        this.behavior.openMain(login);
 
         return true;
+    }
+    
+    public void loadUsers(JPanel container) {
+        container.removeAll();
+        for (UsersObject userObject : this.model.getUsers()) {
+            this.loadUser = new LoadUser();
+            container.add(this.loadUser.setPersonality(userObject.getUsername()));
+        }
+        container.add(this.addUser);
+        if(container.getComponentCount() <= 11) {
+            for (int i = container.getComponentCount(); i < 12; i++) {
+                JPanel panel = new JPanel();
+                panel.setBackground(Color.WHITE);
+                container.add(panel);
+            }
+        }
     }
 
     public boolean auth(JTextField user, JPasswordField password, JLabel notify, JButton button, JFrame login, java.awt.event.KeyEvent evt) {
@@ -124,18 +132,7 @@ public class UsersController {
                 return flag;
             }
 
-            for (double i = 1; i >= 0; i -= 0.01) {
-                login.setOpacity((float) i);
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(UsersController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            login.setVisible(false);
-            login.dispose();
-
-            this.main.setVisible(true);
+            this.behavior.openMain(login);
         }
         return true;
     }
